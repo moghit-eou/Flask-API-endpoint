@@ -24,7 +24,6 @@ def classify():
     if not email_body:
         return jsonify({"error": "Missing email_body parameter"}), 400
 
-    # Otherwise, process and classify the email body
     return jsonify({"prediction": predict_(email_body)})
 
 
