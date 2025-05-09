@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Setup the canvas for particle animation
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   
@@ -41,17 +42,17 @@ document.addEventListener('DOMContentLoaded', () => {
       // Size
       this.size = Math.random() * 3 + 1;
       
-      // Velocity
-      this.vx = (Math.random() - 0.5) * 1;
-      this.vy = (Math.random() - 0.5) * 1;
+      // Velocity - FURTHER REDUCED for even slower movement
+      this.vx = (Math.random() - 0.5) * 0.2;
+      this.vy = (Math.random() - 0.5) * 0.2;
       
-      // Colors
-      this.color = `rgba(103, 232, 249, ${Math.random() * 0.5 + 0.5})`;
+      // Colors - Changed to be more cosmic/sky themed
+      this.color = `rgba(173, 216, 230, ${Math.random() * 0.5 + 0.5})`;
       
       // Visibility
       this.visible = true;
       this.visibilityTimer = 0;
-      this.disappearTime = Math.floor(Math.random() * 200) + 100;
+      this.disappearTime = Math.floor(Math.random() * 300) + 1000; // Increased time visible
     }
     
     // Update particle position
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.visibilityTimer > this.disappearTime) {
         this.visible = !this.visible;
         this.visibilityTimer = 0;
-        this.disappearTime = Math.floor(Math.random() * 200) + (this.visible ? 500 : 100);
+        this.disappearTime = Math.floor(Math.random() * 300) + (this.visible ? 800 : 200); // Longer visible periods
       }
       
       // Only update position if visible
@@ -80,9 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const forceDirectionY = dy / distance;
             const force = (mouse.radius - distance) / mouse.radius;
             
-            // Push particles away from cursor
-            this.vx -= forceDirectionX * force * 0.6;
-            this.vy -= forceDirectionY * force * 0.6;
+            // Push particles away from cursor (reduced strength)
+            this.vx -= forceDirectionX * force * 0.1;
+            this.vy -= forceDirectionY * force * 0.1;
           }
         }
         
@@ -113,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   // Create particles array
-  const particleCount = Math.min(100, Math.floor((canvas.width * canvas.height) / 10000));
+  const particleCount = Math.min(80, Math.floor((canvas.width * canvas.height) / 12000)); // Reduced count
   let particles = [];
   
   function initParticles() {
@@ -123,9 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // Connect particles with lines
+  // Connect particles with lines - ENHANCED to light up when near cursor
   function connectParticles() {
     const maxDistance = 150;
+    const highlightDistance = 100; // Define a distance for highlighting
     
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -136,11 +138,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance < maxDistance) {
+          let lineColor = `rgba(173, 216, 230, ${(1 - (distance / maxDistance)) * 0.5})`;
+          let lineWidth = 1;
+          
+          // Highlight lines near the mouse
+          if (mouse.x !== undefined && mouse.y !== undefined) {
+            const dxMouseI = mouse.x - particles[i].x;
+            const dyMouseI = mouse.y - particles[i].y;
+            const distanceMouseI = Math.sqrt(dxMouseI * dxMouseI + dyMouseI * dyMouseI);
+            
+            const dxMouseJ = mouse.x - particles[j].x;
+            const dyMouseJ = mouse.y - particles[j].y;
+            const distanceMouseJ = Math.sqrt(dxMouseJ * dxMouseJ + dyMouseJ * dyMouseJ);
+            
+            if (distanceMouseI < highlightDistance || distanceMouseJ < highlightDistance) {
+              const highlightOpacity = 1 - (Math.min(distanceMouseI, distanceMouseJ) / highlightDistance);
+              lineColor = `rgba(255, 255, 255, ${highlightOpacity * 0.8})`; // Brighter color when near cursor
+              lineWidth = 1.5; // Slightly thicker line
+            }
+          }
+          
           // Draw line between particles
-          const opacity = 1 - (distance / maxDistance);
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(103, 232, 249, ${opacity * 0.5})`;
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = lineColor;
+          ctx.lineWidth = lineWidth;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
@@ -170,4 +191,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize and start animation
   initParticles();
   animate();
+
+  // Form submission handling (mock implementation)
+  const form = document.getElementById('classificationForm');
+  const resultContainer = document.getElementById('resultContainer');
+  const resultText = document.getElementById('resultText');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent actual form submission
+    
+    const textInput = e.target.email_body.value;
+    
+    // Mock classification - in a real app, this would be an API call
+    setTimeout(() => {
+      // Simple mock classification based on text length
+      let classification;
+      if (textInput.toLowerCase().includes('spam') || textInput.toLowerCase().includes('offer') || textInput.toLowerCase().includes('free')) {
+        classification = "Spam";
+      } else if (textInput.toLowerCase().includes('meeting') || textInput.toLowerCase().includes('report')) {
+        classification = "Business";
+      } else if (textInput.toLowerCase().includes('hello') || textInput.toLowerCase().includes('hi') || textInput.length < 20) {
+        classification = "Personal";
+      } else {
+        classification = "Other";
+      }
+      
+      // Display result
+      resultText.textContent = `Classification: ${classification}`;
+      resultContainer.style.display = 'block';
+    }, 500); // Simulate processing time
+  });
 });
