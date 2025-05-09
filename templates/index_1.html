@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Classification</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Text Classification</h1>
+    <form action="{{ url_for('classify') }}" method="POST">
+      <textarea name="email_body" placeholder="Enter text to classify..." required></textarea>
+      <div class="actions">
+        <button type="reset">Clear</button>
+        <button type="submit">Classify</button>
+      </div>
+    </form>
+    {% if result %}
+    <div class="result">
+      <h3>Result:</h3>
+      <p>{{ result }}</p>
+    </div>
+    {% endif %}
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
