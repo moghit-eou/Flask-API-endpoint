@@ -4,6 +4,19 @@
   box-sizing: border-box;
 }
 
+
+
+.navigate-button:hover {
+  background-color: #0f2942;
+  box-shadow: 0 0 5px rgba(79, 209, 197, 0.5);
+  text-shadow: 0 0 15px rgba(79, 209, 197, 1);
+}
+
+.navigate-button:active {
+  transform: translateY(2px);
+}
+
+
 body {
   /* Updated to cosmic gradient background */
   background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
@@ -81,7 +94,24 @@ body {
   line-height: 1.8;
   letter-spacing: 0.01em;
 }
+.navigate-button {
+  padding: 7px 21px;
+  background-color: #1d3355; /* Dark blue background */
+  border: 1px solid #4fd1c5; /* Cyan border */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size:0.95rem;
+  font-family: 'Courier New', monospace; /* More tech-like font */
+  font-weight: 300;
+  color: #4fd1c5; /* Bright cyan text */
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 1px rgba(79, 209, 197, 0.3);
+  margin : 10px 20px;
+  line-height: 1.8;
 
+}
 /* Highlight colors */
 .highlight {
   color: #67e8f9; /* cyan-300 equivalent */
