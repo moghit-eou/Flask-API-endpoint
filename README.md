@@ -14,11 +14,17 @@
 Instead of `pip`, this project uses [uv](https://github.com/astral-sh/uv) for dependency management.  
 `uv` is a super-fast Python package installer and resolver, designed as a drop-in replacement for pip.
 
-To install `uv` (if you haven't already):
+ create a virtual environment using `uv`,
+```bash
+uv venv .venv
+```
+
+creat a virtual enviroment
 
 ```bash
 pip install uv
 ```
+
 
 Then, install the project requirements:
 
