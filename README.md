@@ -14,17 +14,26 @@
 Instead of `pip`, this project uses [uv](https://github.com/astral-sh/uv) for dependency management.  
 `uv` is a super-fast Python package installer and resolver, designed as a drop-in replacement for pip.
 
- create a virtual environment using `uv`,
+
+install uv 
+```bash
+pip install uv
+```
+create a virtual environment using uv,
 ```bash
 uv venv .venv
 ```
 
-creat a virtual enviroment
+How to activate the virtual environment:
 
-```bash
-pip install uv
-```
-
+- On Windows:
+  ```bash
+  .venv\Scripts\activate
+  ```
+- On macOS/Linux:
+  ```bash
+  source .venv/bin/activate
+  ```
 
 Then, install the project requirements:
 
