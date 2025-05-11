@@ -21,18 +21,18 @@ pip install uv
 ```
 create a virtual environment using uv,
 ```bash
-uv venv .venv
+uv venv venv
 ```
 
 How to activate the virtual environment:
 
 - On Windows:
   ```bash
-  .venv\Scripts\activate
+  venv\Scripts\activate
   ```
 - On macOS/Linux:
   ```bash
-  source .venv/bin/activate
+  source venv/bin/activate
   ```
 
 Then, install the project requirements:

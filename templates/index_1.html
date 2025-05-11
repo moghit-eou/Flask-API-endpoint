@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Text Classification</h1>
+    <h1>Text Classification <br>using Logistic regression</h1>
     <form action="{{ url_for('classify') }}" method="POST">
       <textarea name="email_body" placeholder="Enter text to classify..." required></textarea>
       <div class="actions">
@@ -23,6 +23,9 @@
     </div>
     {% endif %}
   </div>
+  <footer>
+    This model was trained on a limited and potentially low-quality dataset, which may impact the accuracy and reliability of its predictions.
+  </footer>
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
